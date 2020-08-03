@@ -1,30 +1,15 @@
-
-const initState = {
-    state : {
-        size: 0,
-        totalValue : 0,
-        counters: []
-    },
-}
-export default function updateState (state=initState.state, action) {
-    const array = state.counters
-    console.log(array)
-    let index
-    switch (action.type) {
-      case "increment":
-        index = array.indexOf(action.counter)
-        return array[index] + 1;
-      case "decrement":
-        index = array.indexOf(action.counter)
-        return array[index] - 1;
-      case "addCounter":
-        array.push(action.counter);
-        return array.size() - 1;
-      case "gainCounterValue":
-          return array[action.key]
-      default:
-        return array[index] ;
-
+const reducer = (state = 0,action) =>{
+    switch (action.type){
+        case 'increment':
+           return state + 1
+        case 'decrement':
+            return state - 1
+        case 'init':
+            state = 0
+            return state
+         default:   
+            return state
     }
-};
 
+}
+export default reducer

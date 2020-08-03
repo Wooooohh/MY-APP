@@ -1,49 +1,28 @@
 import React, { Component } from 'react'
 import Counter from '../components/Counter'
+import store from "../model/store/index";
+import * as Action from '../model/actions/index'
 class CounterGroup extends Component{
 
     constructor(props){
         super(props);
-        this.state ={size : 0, 
-            totalValue: 0,
-            counters:[]
-        };
+        this.state ={
+            totalValue:store.getState(),
+            size:0}
     }
-    handleResize= (event) => {
+    handleResize = (event) => {
         this.setState({
             size: event.target.value? parseInt(event.target.value) :0,
-            // counters:  [...Array(this.state.size).keys()].map(key =><Counter handleIncrese = {this.handleIncrese} handleDecrease = {this.handleDecrease} key={key}/>)
-            totalValue: 0
         });
-        const countersArray =this.state.counters;
-        // const size = this.state.size;
-        // for (let index = size; index < countersArray.length; index++) {
-        //     countersArray.pop();
-        // }
-        for (let index = 0; index < countersArray.length; index++) {
-            const counter = countersArray[index];
-            counter.state.value = 0;
-        }
+        store.dispatch(Action.init());
     }
-
-    handleDecrease= () => {
-        this.setState((prevState) => ({
-            totalValue : prevState.totalValue -1
-        }))
-    }
-
-    handleIncrese = () => {
-        this.setState((prevState) => ({
-            totalValue : prevState.totalValue + 1
-        }))
-    }
-
-    onRef=(ref)=>{
-        this.state.counters.push(ref)
-    }
-
 
     render(){
+        store.subscribe(() =>{
+            this.setState({
+                totalValue:store.getState()
+            })
+        })
         const initArray = [...Array(this.state.size).keys()];
         return <div>
             <label>
@@ -53,7 +32,7 @@ class CounterGroup extends Component{
                 TotalValue: {this.state.totalValue}
             </label>
              {  
-                initArray.map(key =><Counter onRef={this.onRef} handleIncrese = {this.handleIncrese} handleDecrease = {this.handleDecrease} key={key}/>)
+                initArray.map(key =><Counter handleIncrese = {this.handleIncrese} handleDecrease = {this.handleDecrease} key={key}/>)
              }  
         </div>
     }

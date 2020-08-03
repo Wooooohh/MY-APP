@@ -7,44 +7,34 @@ class Counter extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            value: store.getState()
+            value: 0
         }
         
     }
 
-    reSet = () => {
-        this.setState( {
-            value: 0 
-        });
-    }
-
     onDecrease = () =>  {
-        store.dispatch(Action.decrement(this));
-        this.props.handleDecrease();
+        store.dispatch(Action.decrement());
+        this.setState((prevState) =>({
+            value: prevState.value - 1
+        }))
     }
     onIncrese = () =>  {
-        store.dispatch(Action.increment(this));
-        this.props.handleIncrese();
+        store.dispatch(Action.increment());
+        this.setState((prevState) =>({
+            value: prevState.value + 1
+        }))
     }
 
-    componentDidMount(){
-        this.props.onRef(this)
-    }
+    // componentDidMount(){
+    //     this.state.key = this.props.onRef()
+    // }
 
     render(){
-        store.subscribe(() => 
-            this.setState({
-                value: store.getState()
-            })
-        );
         return (
             <div>
-            {/* <h1 className="text-center mt-5">{store.getState()}</h1> */}
-            <div>
-                <button onClick = {this.onDecrease}>-</button>
-                <mark>{store.getState()}</mark>
-                <button onClick = {this.onIncrese}>+</button>
-            </div>
+                <button onClick= {this.onDecrease}>-</button>
+                <mark>{this.state.value}</mark>
+                <button onClick={this.onIncrese}>+</button>
             </div>) ;     
     }
 }

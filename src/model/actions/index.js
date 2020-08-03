@@ -5,8 +5,15 @@ export function increment  ()  {
     };
   };
   
-  export function decrement  ()  {
+export function decrement  ()  {
     return {
         type: "decrement"
     };
-  };
+};
+
+export const init =() =>{
+    return {
+        type:'init',
+    }
+
+}
