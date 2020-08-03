@@ -4,12 +4,26 @@ class CounterGroup extends Component{
 
     constructor(props){
         super(props);
-        this.state ={size : 0, totalValue: 0};
+        this.state ={size : 0, 
+            totalValue: 0,
+            counters:[]
+        };
     }
     handleResize= (event) => {
         this.setState({
-            size: event.target.value? parseInt(event.target.value) :0
+            size: event.target.value? parseInt(event.target.value) :0,
+            // counters:  [...Array(this.state.size).keys()].map(key =><Counter handleIncrese = {this.handleIncrese} handleDecrease = {this.handleDecrease} key={key}/>)
+            totalValue: 0
         });
+        const countersArray =this.state.counters;
+        // const size = this.state.size;
+        // for (let index = size; index < countersArray.length; index++) {
+        //     countersArray.pop();
+        // }
+        for (let index = 0; index < countersArray.length; index++) {
+            const counter = countersArray[index];
+            counter.state.value = 0;
+        }
     }
 
     handleDecrease= () => {
@@ -23,6 +37,12 @@ class CounterGroup extends Component{
             totalValue : prevState.totalValue + 1
         }))
     }
+
+    onRef=(ref)=>{
+        this.state.counters.push(ref)
+    }
+
+
     render(){
         const initArray = [...Array(this.state.size).keys()];
         return <div>
@@ -32,8 +52,8 @@ class CounterGroup extends Component{
             <label>
                 TotalValue: {this.state.totalValue}
             </label>
-             {
-                 initArray.map(key =><Counter handleIncrese = {this.handleIncrese} handleDecrease = {this.handleDecrease} key={key}/>)
+             {  
+                initArray.map(key =><Counter onRef={this.onRef} handleIncrese = {this.handleIncrese} handleDecrease = {this.handleDecrease} key={key}/>)
              }  
         </div>
     }

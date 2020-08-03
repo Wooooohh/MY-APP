@@ -7,6 +7,12 @@ class Counter extends Component{
         this.state = {value : 0};
     }
 
+    reSet = () => {
+        this.setState( {
+            value: 0 
+        });
+    }
+
     onDecrease = () =>  {
         this.setState((prevState) => ({
             value : prevState.value -1 
@@ -20,10 +26,14 @@ class Counter extends Component{
         this.props.handleIncrese();
     }
 
+    componentDidMount(){
+        this.props.onRef(this)
+    }
+
     render(){
         return (<div>
                 <button onClick = {this.onDecrease}>-</button>
-                <h>{this.state.value}</h>
+                <mark>{this.state.value}</mark>
                 <button onClick = {this.onIncrese}>+</button>
             </div>) ;     
     }
