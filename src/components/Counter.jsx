@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
+import store from "../model/store/index";
+import * as Action from '../model/actions/index'
 
 class Counter extends Component{
 
     constructor(props) {
         super(props);
-        this.state = {value : 0};
+        this.state = {
+            value: store.getState()
+        }
+        
     }
 
     reSet = () => {
@@ -14,15 +19,11 @@ class Counter extends Component{
     }
 
     onDecrease = () =>  {
-        this.setState((prevState) => ({
-            value : prevState.value -1 
-        }));
+        store.dispatch(Action.decrement(this));
         this.props.handleDecrease();
     }
     onIncrese = () =>  {
-        this.setState((prevState) => ({
-            value: prevState.value +1 
-        }));
+        store.dispatch(Action.increment(this));
         this.props.handleIncrese();
     }
 
@@ -31,10 +32,19 @@ class Counter extends Component{
     }
 
     render(){
-        return (<div>
+        store.subscribe(() => 
+            this.setState({
+                value: store.getState()
+            })
+        );
+        return (
+            <div>
+            {/* <h1 className="text-center mt-5">{store.getState()}</h1> */}
+            <div>
                 <button onClick = {this.onDecrease}>-</button>
-                <mark>{this.state.value}</mark>
+                <mark>{store.getState()}</mark>
                 <button onClick = {this.onIncrese}>+</button>
+            </div>
             </div>) ;     
     }
 }
