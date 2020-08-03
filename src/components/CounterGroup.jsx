@@ -7,8 +7,9 @@ class CounterGroup extends Component{
     constructor(props){
         super(props);
         this.state ={
-            totalValue:store.getState(),
-            size:0}
+            size:0,
+            state:store.getState()
+        }
     }
     handleResize = (event) => {
         this.setState({
@@ -29,10 +30,10 @@ class CounterGroup extends Component{
                 GropuSize: <input onChange={this.handleResize} defaultValue={0} />
             </label>
             <label>
-                TotalValue: {this.state.totalValue}
+                TotalValue: store.dispatch(Action.init());
             </label>
              {  
-                initArray.map(key =><Counter handleIncrese = {this.handleIncrese} handleDecrease = {this.handleDecrease} key={key}/>)
+                initArray.map(key =><Counter handleIncrese = {this.handleIncrese} handleDecrease = {this.handleDecrease} id={key}/>)
              }  
         </div>
     }
