@@ -1,12 +1,14 @@
 
-export function increment  ()  {
+export function increment  (index)  {
     return {
+        index: index,
         type: "increment"
     };
   };
   
-export function decrement  ()  {
+export function decrement  (index)  {
     return {
+        index: index,
         type: "decrement"
     };
 };

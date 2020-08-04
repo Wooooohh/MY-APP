@@ -7,7 +7,7 @@ class Counter extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            key: this.id,
+            key: this.props.id,
             value: store.getState()
         }
     }
@@ -25,12 +25,13 @@ class Counter extends Component{
                 value: store.getState()
             })
         );
+        console.log(store.getState())
         return (
             <div>
-            {/* <h1 className="text-center mt-5">{store.getState()}</h1> */}
+            <h1 className="text-center mt-5">{store.getState()}</h1>
             <div>
                 <button onClick = {this.onDecrease}>-</button>
-                <mark>{this.state.value.countersValues[this.state.key]}</mark>
+                <mark>{store.getState().countersValues[this.state.key]}</mark>
                 <button onClick = {this.onIncrese}>+</button>
             </div>
             </div>) ;     
